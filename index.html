@@ -43,6 +43,25 @@ sup{font-size:.64em;line-height:0;vertical-align:super}.fraction sup{font-size:.
 .mobile-mode.playing{overflow:hidden;overscroll-behavior:none}.mobile-mode.playing .layout{height:100svh;max-width:600px;padding:6px 8px calc(8px + env(safe-area-inset-bottom));margin:auto;display:block}.mobile-mode.playing .game-column{height:100%;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:36px 58px minmax(100px,1fr) 78px 120px;gap:8px}.mobile-mode.playing .question{display:contents}.mobile-mode.playing .question-top{grid-row:1;grid-column:1;height:36px;position:static;width:auto}.mobile-mode.playing #receiver{font-size:9px;line-height:1.4;max-width:48%;max-height:34px}.mobile-mode.playing .run-tools button{font-size:11px;min-height:34px;padding:6px 9px}.mobile-mode.playing #qtitle{grid-row:2;grid-column:1;height:58px;max-height:58px;margin:0;padding:4px 8px;font-size:23px;line-height:1.5;overflow:auto;align-content:center;background:#17132b}.mobile-mode.playing .stage{grid-row:3;grid-column:1;min-height:0;margin:0;box-shadow:none;border-width:2px}.mobile-mode.playing #game{width:100%;height:100%;min-height:0;max-height:none;object-fit:contain}.mobile-mode.playing .answers{grid-row:4;grid-column:1;height:78px;margin:0;gap:10px;padding:0;flex-direction:row}.mobile-mode.playing .answers button{height:78px;min-height:0;flex:1;display:flex;flex-direction:row;align-items:center;justify-content:center;padding:6px;gap:8px}.mobile-mode.playing .answers b{font-size:23px}.mobile-mode.playing .touch{grid-row:5;grid-column:1;position:static;margin:0;padding:4px;background:#16132b}.mobile-mode.playing .roster,.mobile-mode.playing .keyboard-help{display:none}
 @media(max-height:620px){.mobile-mode.playing .game-column{grid-template-rows:34px 46px minmax(80px,1fr) 62px 104px;gap:5px}.mobile-mode.playing #qtitle{height:46px;max-height:46px;font-size:20px}.mobile-mode.playing .answers,.mobile-mode.playing .answers button{height:62px}.mobile-mode.playing .pad{grid-template-rows:44px 44px;gap:6px}.mobile-mode.playing .answers b{font-size:20px}}
 .mobile-mode .pad{align-items:stretch}.mobile-mode .pad button{height:100%;align-self:stretch}.mobile-mode.playing .answers button{touch-action:none}
+/* Portrait layout: answers above a court that keeps its natural aspect ratio. */
+.mobile-mode.playing .layout{height:auto;min-height:100svh;padding-bottom:calc(10px + env(safe-area-inset-bottom))}
+.mobile-mode.playing{overflow:auto}
+.mobile-mode.playing .game-column{height:auto;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:36px 54px 74px auto 144px;gap:8px}
+.mobile-mode.playing #qtitle{height:54px;max-height:54px}
+.mobile-mode.playing .answers{grid-row:3;height:74px}
+.mobile-mode.playing .answers button{height:74px}
+.mobile-mode.playing .stage{grid-row:4;align-self:start;aspect-ratio:3 / 2;height:auto;min-height:0;width:100%}
+.mobile-mode.playing #game{width:100%;height:auto;min-height:0;max-height:none;object-fit:fill}
+.mobile-mode.playing .touch{grid-row:5;height:144px;padding:6px}
+.mobile-mode .pad{grid-template-columns:1fr 1fr 1.15fr 1.15fr;grid-template-rows:60px 60px;gap:8px;align-items:stretch}
+.mobile-mode .pad button{height:100%;min-height:0!important}
+.mobile-mode [data-action="jump"]{grid-column:1 / 3;grid-row:1}
+.mobile-mode [data-action="left"]{grid-column:1;grid-row:2}
+.mobile-mode [data-action="right"]{grid-column:2;grid-row:2}
+.mobile-mode [data-action="a"]{grid-column:3;grid-row:1}
+.mobile-mode [data-action="b"]{grid-column:4;grid-row:1}
+.mobile-mode [data-action="dive"]{grid-column:3 / 5;grid-row:2}
+@media(max-height:650px){.mobile-mode.playing .game-column{grid-template-rows:34px 44px 64px auto 120px;gap:6px}.mobile-mode.playing #qtitle{height:44px;max-height:44px}.mobile-mode.playing .answers,.mobile-mode.playing .answers button{height:64px}.mobile-mode.playing .touch{height:120px;padding:4px}.mobile-mode .pad{grid-template-rows:50px 50px;gap:6px}}
 </style></head><body>
 <header><a class="brand" href="#">MATH<span> VOLLEY!</span> ↗</a><div class="tag">CH.5 POLYNOMIALS · MATH VOLLEY</div><div class="header-actions"><button id="projection" class="secondary" aria-pressed="false"></button><button id="sound" class="secondary"></button></div></header>
 <main class="layout"><section class="game-column"><div class="question" aria-live="polite"><div class="question-top"><span id="receiver"></span><div class="run-tools"><button id="settings-open" class="secondary" data-zh="⚙ 設定" data-en="⚙ SETTINGS">⚙ 設定</button><button id="pause" class="secondary"></button></div></div><h2 id="qtitle"></h2><small id="hint"></small><div class="answers"><button id="answer0"></button><button id="answer1"></button></div></div>
