@@ -62,6 +62,15 @@ sup{font-size:.64em;line-height:0;vertical-align:super}.fraction sup{font-size:.
 .mobile-mode [data-action="b"]{grid-column:4;grid-row:1}
 .mobile-mode [data-action="dive"]{grid-column:3 / 5;grid-row:2}
 @media(max-height:650px){.mobile-mode.playing .game-column{grid-template-rows:34px 44px 64px auto 120px;gap:6px}.mobile-mode.playing #qtitle{height:44px;max-height:44px}.mobile-mode.playing .answers,.mobile-mode.playing .answers button{height:64px}.mobile-mode.playing .touch{height:120px;padding:4px}.mobile-mode .pad{grid-template-rows:50px 50px;gap:6px}}
+/* Use remaining portrait viewport space for thumb controls, without stretching the court. */
+.mobile-mode.playing .layout{height:100svh;min-height:0;padding-bottom:calc(16px + env(safe-area-inset-bottom));box-sizing:border-box}
+.mobile-mode.playing .game-column{height:100%;grid-template-rows:36px 54px 74px auto minmax(144px,1fr);align-content:start}
+.mobile-mode.playing .touch{height:100%;min-height:144px;padding:8px;box-sizing:border-box;align-items:stretch}
+.mobile-mode.playing .pad{height:100%;grid-template-rows:repeat(2,minmax(60px,1fr));gap:10px;align-items:stretch}
+.mobile-mode.playing .pad button{height:100%;font-size:clamp(22px,6vw,30px)}
+.mobile-mode.playing .pad button.dive{font-size:clamp(20px,5.5vw,27px)}
+.mobile-mode.playing .pad button[data-action="left"],.mobile-mode.playing .pad button[data-action="right"]{font-size:32px}
+@media(max-height:650px){.mobile-mode.playing .game-column{grid-template-rows:34px 44px 64px auto minmax(120px,1fr);gap:6px}.mobile-mode.playing .touch{min-height:120px;padding:6px}.mobile-mode.playing .pad{grid-template-rows:repeat(2,minmax(48px,1fr));gap:8px}.mobile-mode.playing .pad button{font-size:22px}}
 </style></head><body>
 <header><a class="brand" href="#">MATH<span> VOLLEY!</span> ↗</a><div class="tag">CH.5 POLYNOMIALS · MATH VOLLEY</div><div class="header-actions"><button id="projection" class="secondary" aria-pressed="false"></button><button id="sound" class="secondary"></button></div></header>
 <main class="layout"><section class="game-column"><div class="question" aria-live="polite"><div class="question-top"><span id="receiver"></span><div class="run-tools"><button id="settings-open" class="secondary" data-zh="⚙ 設定" data-en="⚙ SETTINGS">⚙ 設定</button><button id="pause" class="secondary"></button></div></div><h2 id="qtitle"></h2><small id="hint"></small><div class="answers"><button id="answer0"></button><button id="answer1"></button></div></div>
@@ -187,7 +196,7 @@ function renderQ(){if(!q)return;
  $('#qtitle').innerHTML=mathHTML(q.row[lang==='zh'?1:0]);
  const chosen=ps[side].choice;
  $('#hint').innerHTML=mathHTML(q.used?(tr('正確答案：','Correct answer: ')+q.row[2]+' · '+q.row[lang==='zh'?4:5]):tr('選擇化簡後的答案 · 可提早 2 秒準備擊球','Choose the simplified expression · Prepare your shot up to 2 seconds early')); 
- [0,1].forEach(n=>{const b=$('#answer'+n);b.innerHTML=`<kbd>${isMobile()?(n?'B':'A'):(side?(n?'L':'K'):(n?'G':'F'))+' · '+(n?'B':'A')}</kbd><b>${mathHTML(q.options[n])}</b>`;b.classList.toggle('chosen',!q.used&&ps[side].arm>0&&chosen===n);b.classList.toggle('correct',q.used&&n===q.right);b.classList.toggle('wrong',q.used&&chosen===n&&n!==q.right);b.disabled=side===1&&mode==='com';b.setAttribute('aria-label',`${n?'B':'A'}: ${q.options[n]}`)});
+ [0,1].forEach(n=>{const b=$('#answer'+n);b.innerHTML=`<kbd>${n?'B':'A'}</kbd><b>${mathHTML(q.options[n])}</b>`;b.classList.toggle('chosen',!q.used&&ps[side].arm>0&&chosen===n);b.classList.toggle('correct',q.used&&n===q.right);b.classList.toggle('wrong',q.used&&chosen===n&&n!==q.right);b.disabled=side===1&&mode==='com';b.setAttribute('aria-label',`${n?'B':'A'}: ${q.options[n]}`)});
 }
 function newQ(i){let a;a=makeAlgebra();lastQ=a.text;const wrong=a.choices.filter(x=>x!==a.ans)[rnd(0,1)],right=rnd(0,1);
  const row=[(a.op==='expand'?'Expand: ':'Simplify: ')+a.text,(a.op==='expand'?'展開：':'化簡：')+a.text,a.ans,wrong,kindHints[a.op]+' '+a.text+' = '+a.ans,a.hint];q={row,algebra:a,right,options:right?[wrong,a.ans]:[a.ans,wrong],used:false};side=i;ps.forEach(p=>{p.choice=null;p.arm=0});renderQ()}
