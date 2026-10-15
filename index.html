@@ -238,17 +238,17 @@ document.addEventListener('keydown',e=>{if(['SELECT','INPUT','TEXTAREA'].include
 document.addEventListener('keyup',e=>keys[e.code]=false);
 function jump(i){if(running&&!paused&&ps[i].y>=FLOOR-1&&ps[i].dive<=0&&ps[i].recover<=0)ps[i].vy=-600}
 
-function dive(i){
+function dive(i,requestedDirection=0){
  if(!running||paused||ended)return;const p=ps[i];if(p.dive>0||p.recover>0||p.diveCooldown>0)return;
  const b=binds[i],dir=(keys[b.right]||held[i].right?1:0)-(keys[b.left]||held[i].left?1:0);
- p.diveDir=dir||p.facing;p.facing=p.diveDir;p.dive=1;p.diveAge=0;p.divePhase="air";p.diveVx=p.diveDir*(p.moving?560:470);p.diveCooldown=0;p.landAge=0;if(p.y>=FLOOR-1)p.vy=-160;tone(300,.09);
+ p.diveDir=requestedDirection||dir||p.facing;p.facing=p.diveDir;p.dive=1;p.diveAge=0;p.divePhase="air";p.diveVx=p.diveDir*(p.moving?560:470);p.diveCooldown=0;p.landAge=0;if(p.y>=FLOOR-1)p.vy=-160;tone(300,.09);
  for(let k=0;k<8;k++)fx.push({x:p.x-p.diveDir*25,y:p.y-8,vx:-p.diveDir*(40+Math.random()*90),vy:-Math.random()*55,life:.38,max:.38,color:'#b49aff'});
  updateDiveButtons();
 }
 function updateDiveButtons(){document.querySelectorAll('[data-action="dive"]').forEach(b=>{const p=ps[+b.dataset.player],busy=p.dive>0||p.recover>0;b.classList.toggle('cooling',busy);b.querySelector('.action-label').textContent=p.recover>0?tr('起身','Rise'):p.dive>0?tr('飛撲中','Diving'):tr('飛撲','Dive');b.querySelector('.dive-meter').style.transform='scaleX('+(p.recover>0?1-p.recover/.28:busy?0:1)+')';b.setAttribute('aria-label','P'+(+b.dataset.player+1)+' '+(busy?tr('飛撲／起身中','Diving / recovering'):tr('飛撲可用','Dive ready')))})}
 
 
-function arm(i,n){if(!running||paused||ended||i!==side||q.used)return;ps[i].choice=n;ps[i].arm=2;renderQ();tone(280+n*90,.04)}
+function arm(i,n){if(!running||paused||ended||i!==side||q.used)return;ps[i].choice=n;ps[i].arm=2;renderQ();tone(280+n*90,.04);if(serveWait<=0&&answerHitInRange(i))hit(i)}
 [0,1].forEach(n=>{const button=$('#answer'+n);const choose=()=>{if(side===1&&mode==='com')return;arm(side,n)};button.onpointerdown=e=>{e.preventDefault();choose()};button.onclick=e=>{if(e.detail===0)choose()}});
 function point(w){score[w]++;tone(600,.22);msg={kind:'point',player:w};msgTime=1.5;if(score[w]>=conf.target){ended=true;running=false;overlay();showReport()}else serve(w)}
 function hit(i){
@@ -269,11 +269,14 @@ function update(dt){
   let dir=0,speed=325;
   if(i===1&&mode==='com'){
    const ai=comProfile(conf.level),elite=conf.level==='hard';speed=ai.speed;
-   const target=comTarget(ball,side,elite);
+   const actualSide=ball.x<W/2?0:1;const target=comTarget(ball,actualSide,elite);p.aiDiveWait=Math.max(0,(p.aiDiveWait||0)-dt);
    if(Math.abs(p.x-target)>ai.tolerance)dir=Math.sign(target-p.x);
    const gap=Math.abs(ball.x-p.x);
-   if(p.dive<=0&&side===1&&ball.y>FLOOR-ai.diveHeight&&ball.vy>0&&gap>ai.diveMin&&gap<ai.diveMax&&p.diveCooldown<=0){p.facing=dir||p.facing;dive(i)}
-   else if(p.dive<=0&&side===1&&ball.y<(elite?420:435)&&ball.y>(elite?175:205)&&Math.abs((elite?target:ball.x)-p.x)<(elite?100:135)&&ball.vy>0)jump(1);
+   const diveDir=Math.sign(ball.x-p.x),diveRoom=diveDir>0?W-120-p.x:p.x-(W/2+120);
+   const free=p.dive<=0&&p.recover<=0;
+   // A blocked dive must not repeatedly replace ordinary movement near the net or back wall.
+   if(free&&actualSide===1&&ball.y>FLOOR-ai.diveHeight&&ball.vy>0&&gap>ai.diveMin&&gap<ai.diveMax&&p.diveCooldown<=0&&p.aiDiveWait<=0&&diveRoom>45){dive(i,diveDir);p.aiDiveWait=.95}
+   else if(free&&actualSide===1&&ball.y<(elite?420:435)&&ball.y>(elite?175:205)&&Math.abs((elite?target:ball.x)-p.x)<(elite?100:135)&&ball.vy>0)jump(1);
    if(side===1&&!q.used&&p.choice===null&&ball.y>(elite?80:160)){p.choice=Math.random()<ai.accuracy?q.right:1-q.right;p.arm=6}
 
   }else{const b=binds[i];dir=(keys[b.right]||held[i].right?1:0)-(keys[b.left]||held[i].left?1:0);if(held[i].jump&&p.y>=FLOOR)jump(i)}
@@ -296,26 +299,27 @@ function update(dt){
  });updateDiveButtons();
  const oldX=ball.x,oldY=ball.y;ball.vy+=ball.gravity*dt;ball.x+=ball.vx*dt;ball.y+=ball.vy*dt;ball.rotation+=ball.vx*dt*.013;
  if(ball.power){trail.push({x:ball.x,y:ball.y,life:.18});if(trail.length>24)trail.shift()}
- if(ball.x<R||ball.x>W-R){ball.x=Math.max(R,Math.min(W-R,ball.x));ball.vx*=-.75;ball.power=false}
- if(ball.y<R){ball.y=R;ball.vy=Math.abs(ball.vy)}
+ if(ball.x<R||ball.x>W-R){ball.x=Math.max(R,Math.min(W-R,ball.x));ball.vx*=-.75;ball.power=false;ball.shotReleased=true}
+ if(ball.y<R){ball.y=R;ball.vy=Math.abs(ball.vy);ball.shotReleased=true}
  const netHalf=6;
  if(Math.abs(ball.x-W/2)<R+netHalf&&ball.y+R>NET){
   if(oldY+R<=NET&&ball.vy>0){ball.y=NET-R;ball.vy=-Math.max(180,Math.abs(ball.vy)*.5)}
-  else{ball.x=oldX<W/2?W/2-R-netHalf-1:W/2+R+netHalf+1;ball.vx=-ball.vx*.55}ball.power=false;
+  else{ball.x=oldX<W/2?W/2-R-netHalf-1:W/2+R+netHalf+1;ball.vx=-ball.vx*.55}ball.power=false;ball.shotReleased=true;
  }
  if((oldX<W/2&&ball.x>=W/2)||(oldX>=W/2&&ball.x<W/2))newQ(ball.x>=W/2?1:0);
    ps.forEach((p,i)=>{
    if((ball.x<W/2?0:1)!==i)return;
-   if(ball.shotOwner===i&&!ball.shotReleased){const box=isRescuing(p)?rescueBounds(p):{left:p.x-48,right:p.x+48,top:p.y-PLAYER_H,bottom:p.y};const outside=ball.x<box.left-R||ball.x>box.right+R||ball.y<box.top-R||ball.y>box.bottom+R;
-    if(outside||ball.vx*(i?-1:1)<=0)ball.shotReleased=true;else return;
-   }
+   // An outgoing shot belongs to one contact, even if the hitter jumps or changes pose.
+   // Re-enable contact only after a real rebound or another player's touch.
+
    const diving=isRescuing(p),contact=diving?bodyContact(p,ball):diveContact(p),dist=diving?Math.hypot(ball.x-contact.x,ball.y-contact.y):Math.hypot(ball.x-contact.x,(ball.y-contact.y)*.8);
    const collision=sweepBody(p,oldX,oldY,ball.x,ball.y);
-   if(side===i&&p.cool<=0&&(dist<(diving?R+22:94)||collision)&&p.arm>0&&p.choice!==null&&!q.used){hit(i);return}
+   if(side===i&&(dist<(diving?R+22:94)||collision)&&p.arm>0&&p.choice!==null&&!q.used){hit(i);return}
+   if(ball.shotOwner===i&&!ball.shotReleased)return;
    if(collision&&ball.vx*collision.nx+ball.vy*collision.ny<0){
     ball.x=collision.x+collision.nx*.5;ball.y=collision.y+collision.ny*.5;
     ball.vx=collision.nx?collision.nx*Math.max(120,Math.abs(ball.vx)*.55):(i?-1:1)*100;
-    if(ball.y+R>NET&&((i===0&&ball.x>W/2-R-7)||(i===1&&ball.x<W/2+R+7))){const top=diving?rescueBounds(p).top:p.y-PLAYER_H;ball.x=i?W/2+R+7:W/2-R-7;ball.y=Math.min(ball.y,top-R-1);ball.vx=(i?1:-1)*180}ball.vy=diving?-460:-360;ball.gravity=580;ball.power=false;p.cool=Math.max(p.cool,.12);tone(220,.05);
+    if(ball.y+R>NET&&((i===0&&ball.x>W/2-R-7)||(i===1&&ball.x<W/2+R+7))){const top=diving?rescueBounds(p).top:p.y-PLAYER_H;ball.x=i?W/2+R+7:W/2-R-7;ball.y=Math.min(ball.y,top-R-1);ball.vx=(i?1:-1)*180}ball.vy=diving?-460:-360;ball.gravity=580;ball.power=false;ball.shotOwner=i;ball.shotReleased=false;p.cool=Math.max(p.cool,.12);tone(220,.05);
    }
   });
 if(ball.y+R>=FLOOR+10)point(ball.x<W/2?1:0);
@@ -479,6 +483,9 @@ let runReady=false,runFrames=[],runTexture;const runAtlas=new Image();runAtlas.o
 
 function comProfile(level){return level==='easy'?{speed:285,accuracy:.78,tolerance:12,diveHeight:115,diveMin:75,diveMax:220}:level==='hard'?{speed:450,accuracy:.985,tolerance:8,diveHeight:155,diveMin:90,diveMax:280}:{speed:380,accuracy:.94,tolerance:12,diveHeight:115,diveMin:75,diveMax:220}}
 function comTarget(b,ballSide,elite){
+ // For a low descending ball, pursue its reachable landing position rather than overshoot it.
+ if(ballSide===1&&b.y>FLOOR-155&&b.vy>0){const gravity=Math.max(1,b.gravity),time=Math.max(0,Math.min(.12,(-b.vy+Math.sqrt(b.vy*b.vy+2*gravity*Math.max(0,FLOOR-R-b.y)))/gravity));return Math.max(535,Math.min(909,b.x+b.vx*time))}
+
  if(!elite)return ballSide===1?Math.max(535,Math.min(909,b.x+b.vx*.12)):735;
  if(ballSide!==1&&b.vx<=0)return 700;
  // Estimate the descending intercept, with a bounded horizon and side-wall reflection.
@@ -527,5 +534,11 @@ function sweepBody(p,x0,y0,x1,y1){
  let enter=0,leave=1,nx=0,ny=0;
  for(const [v,d,min,max,axis] of [[x0,dx,l,r,0],[y0,dy,t,b,1]]){if(Math.abs(d)<1e-9){if(v<min||v>max)return null;continue}let near=(min-v)/d,far=(max-v)/d,sign=-1;if(near>far){[near,far]=[far,near];sign=1}if(near>enter){enter=near;nx=axis===0?sign:0;ny=axis===1?sign:0}leave=Math.min(leave,far);if(enter>leave)return null}
  if(enter<0||enter>1)return null;return{x:x0+dx*enter,y:y0+dy*enter,nx,ny};
+}
+
+function answerHitInRange(i){
+ if(!q||q.used||side!==i||(ball.x<W/2?0:1)!==i)return false;
+ const p=ps[i],rescuing=isRescuing(p),contact=rescuing?bodyContact(p,ball):diveContact(p);
+ return Math.hypot(ball.x-contact.x,(ball.y-contact.y)*(rescuing?1:.8))<(rescuing?R+22:94);
 }
 </script></body></html>
