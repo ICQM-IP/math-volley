@@ -85,6 +85,62 @@ sup{font-size:.64em;line-height:0;vertical-align:super}.fraction sup{font-size:.
 .mobile-mode.playing .game-column{grid-template-rows:36px 82px 74px auto minmax(144px,1fr)}
 .mobile-mode.playing .question #qtitle{font-size:28px;height:82px;max-height:82px;padding:6px 10px;line-height:1.25;background:#211936}
 @media(max-height:650px){.mobile-mode.playing .game-column{grid-template-rows:34px 68px 64px auto minmax(120px,1fr)}.mobile-mode.playing .question #qtitle{font-size:24px;height:68px;max-height:68px}}
+/* Responsive match layout: court and controls occupy separate grid tracks. */
+.modes button:not(.active){background:#302447;color:#fff;border-color:#7f629f;box-shadow:4px 4px 0 #100e20}
+.modes button.active{box-shadow:inset 0 -3px #b8b755,4px 4px 0 #100e20}
+.overlay{justify-content:flex-start;overflow:auto;overscroll-behavior:contain;padding:14px;gap:4px}
+.overlay>*{flex-shrink:0}.overlay h2{font-size:clamp(20px,3vw,32px);margin:6px 0}.overlay p{margin:4px 0 8px}.overlay button{margin:3px;padding:10px 18px}.overlay .overlay-settings{margin-top:4px!important}
+body.match-view header,body.projection-mode header{padding:8px 16px;min-height:54px}
+body.match-view:not(.mobile-mode) .layout,body.projection-mode:not(.mobile-mode) .layout{height:calc(100dvh - 60px);padding:0 16px 8px;gap:16px}
+body.match-view:not(.mobile-mode) .game-column,body.projection-mode:not(.mobile-mode) .game-column{height:100%;min-height:0;display:grid;grid-template-rows:auto minmax(0,1fr) auto auto;gap:8px}
+body.match-view .roster,body.projection-mode .roster{display:none}
+body.match-view:not(.mobile-mode) .sidebar{min-height:0;overflow:auto}
+body.match-view:not(.mobile-mode) .question,body.projection-mode:not(.mobile-mode) .question{margin:0;padding:8px 12px;grid-template-rows:34px 64px 24px 62px;gap:5px}
+body.match-view:not(.mobile-mode) .question-top,body.projection-mode:not(.mobile-mode) .question-top{height:34px}
+body.match-view:not(.mobile-mode) .question #qtitle,body.projection-mode:not(.mobile-mode) .question #qtitle{height:64px;max-height:64px;font-size:clamp(26px,3vw,38px);padding:4px 10px}
+body.match-view:not(.mobile-mode) #hint,body.projection-mode:not(.mobile-mode) #hint{height:24px;font-size:11px}
+body.match-view:not(.mobile-mode) .answers,body.match-view:not(.mobile-mode) .answers button,body.projection-mode:not(.mobile-mode) .answers,body.projection-mode:not(.mobile-mode) .answers button{height:62px;flex-direction:row;align-items:center}
+body.match-view:not(.mobile-mode) .stage,body.projection-mode:not(.mobile-mode) .stage{height:100%;min-height:0;box-shadow:none}
+body.match-view:not(.mobile-mode) #game,body.projection-mode:not(.mobile-mode) #game{width:100%;height:100%;max-height:none;object-fit:contain}
+body.match-view:not(.mobile-mode) .touch,body.projection-mode:not(.mobile-mode) .touch{margin:0;padding:5px;gap:6px;flex-wrap:nowrap}
+body.match-view:not(.mobile-mode) .pad,body.projection-mode:not(.mobile-mode) .pad{min-width:0;gap:4px}
+body.match-view:not(.mobile-mode) .pad button,body.projection-mode:not(.mobile-mode) .pad button{padding:5px 3px;font-size:13px;min-height:44px}
+body.match-view:not(.mobile-mode) .keyboard-help{padding:0;font-size:10px;margin:0}
+body.mobile-mode.match-view header,body.mobile-mode.match-view .sidebar,body.mobile-mode.match-view .keyboard-help{display:none}
+body.mobile-mode.match-view{overflow:hidden;overscroll-behavior:none}
+body.mobile-mode.match-view .layout{height:100dvh;min-height:0;max-width:1100px;display:block;padding:6px 8px max(8px,env(safe-area-inset-bottom));margin:auto}
+body.mobile-mode.match-view .game-column{height:100%;min-height:0;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:34px 68px 64px minmax(0,1fr) 132px;gap:6px}
+body.mobile-mode.match-view .question{display:contents}
+body.mobile-mode.match-view .question-top{grid-column:1;grid-row:1;height:34px;min-height:0}
+body.mobile-mode.match-view .question #qtitle{grid-column:1;grid-row:2;height:100%;max-height:100%;margin:0;padding:4px 8px;font-size:26px;overflow:auto}
+body.mobile-mode.match-view #hint{display:none!important}
+body.mobile-mode.match-view .answers{grid-column:1;grid-row:3;height:100%;margin:0;gap:8px}
+body.mobile-mode.match-view .answers button{height:100%;padding:6px;flex-direction:row;align-items:center;justify-content:center}
+body.mobile-mode.match-view .answers b{font-size:21px}
+body.mobile-mode.match-view .stage{grid-column:1;grid-row:4;height:100%;min-height:0;width:100%;aspect-ratio:auto;align-self:stretch;box-shadow:none;border-width:2px}
+body.mobile-mode.match-view #game{height:100%;width:100%;max-height:none;min-height:0;object-fit:contain}
+body.mobile-mode.match-view .touch{grid-column:1;grid-row:5;position:static;height:100%;min-height:0;margin:0;padding:5px;align-items:stretch;z-index:auto}
+body.mobile-mode.match-view .pad{height:100%;grid-template-columns:1fr 1fr 1.15fr 1.15fr;grid-template-rows:repeat(2,minmax(0,1fr));gap:6px}
+body.mobile-mode.match-view .pad button{font-size:22px;height:100%;min-height:0!important}
+body.mobile-mode.match-view .pad button.dive{font-size:19px}
+body.mobile-mode.match-view .overlay{background:#17132bf5}
+@media(max-height:650px) and (orientation:portrait){body.mobile-mode.match-view .game-column{grid-template-rows:34px 54px 54px minmax(0,1fr) 108px;gap:4px}}
+@media(orientation:landscape) and (max-height:650px){
+ body.mobile-mode.match-view .game-column{grid-template-columns:minmax(220px,.85fr) minmax(0,1.4fr);grid-template-rows:34px minmax(0,1fr) 64px 82px;gap:6px}
+ body.mobile-mode.match-view .question-top{grid-column:1;grid-row:1}
+ body.mobile-mode.match-view .question #qtitle{grid-column:1;grid-row:2;font-size:24px}
+ body.mobile-mode.match-view .answers{grid-column:1;grid-row:3}
+ body.mobile-mode.match-view .stage{grid-column:2;grid-row:1/4}
+ body.mobile-mode.match-view .touch{grid-column:1/3;grid-row:4}
+ body.mobile-mode.match-view .pad{grid-template-columns:repeat(6,minmax(0,1fr));grid-template-rows:minmax(0,1fr)}
+ body.mobile-mode.match-view .pad button[data-action]{grid-column:auto;grid-row:auto}
+ body.mobile-mode.match-view .overlay .eyebrow{display:none}
+ body.mobile-mode.match-view .overlay h2{font-size:21px;margin:0}
+ body.mobile-mode.match-view .overlay p{font-size:12px;margin:0}
+ body.mobile-mode.match-view .overlay button{font-size:12px;padding:7px 12px}
+}
+@media(max-width:800px){body.match-view:not(.mobile-mode) .sidebar{display:none}body.match-view:not(.mobile-mode) .layout{grid-template-columns:1fr}}
+
 </style></head><body>
 <header><a class="brand" href="#">MATH<span> VOLLEY!</span> ↗</a><div class="tag">CH.5 POLYNOMIALS · MATH VOLLEY</div><div class="header-actions"><button id="projection" class="secondary" aria-pressed="false"></button><button id="sound" class="secondary"></button></div></header>
 <main class="layout"><section class="game-column"><div class="question" aria-live="polite"><div class="question-top"><span id="receiver"></span><div class="run-tools"><button id="settings-open" class="secondary" data-zh="⚙ 設定" data-en="⚙ SETTINGS">⚙ 設定</button><button id="pause" class="secondary"></button></div></div><h2 id="qtitle"></h2><small id="hint"></small><div class="answers"><button id="answer0"></button><button id="answer1"></button></div></div>
@@ -92,10 +148,10 @@ sup{font-size:.64em;line-height:0;vertical-align:super}.fraction sup{font-size:.
 <section class="panel roster"><div class="sectiontitle"><h2 data-zh="★ 選擇你的老師" data-en="★ CHOOSE YOUR TEACHER">★ 選擇你的老師</h2><div><button id="pick1" class="secondary active">P1</button><button id="pick2" class="secondary">COM / P2</button></div></div><div id="characters"></div><p class="small" data-zh="五位老師能力相同；各玩家可自由選擇。" data-en="All five teachers have the same abilities. Choose your favourite!"></p></section></section>
 <aside class="sidebar" id="settings-panel"><section class="panel"><div class="eyebrow" data-zh="01 / 比賽設定" data-en="01 / SET YOUR MATCH">01 / 比賽設定</div>
 <label for="language" data-zh="語言" data-en="Language">語言</label><select id="language" aria-label="語言 / Language"><option value="zh">繁體中文</option><option value="en">English</option></select>
-<label for="device" data-zh="⌨ 操作裝置" data-en="⌨ Controls">⌨ 操作裝置</label><select id="device"><option value="desktop" data-zh="電腦 · 鍵盤 / 按鈕" data-en="Computer · Keyboard / Buttons">電腦 · 鍵盤 / 按鈕</option><option value="mobile" data-zh="手提裝置 · 觸控" data-en="Mobile · Touch">手提裝置 · 觸控</option></select><p id="device-note" class="small device-note"></p>
-<label data-zh="⚔ 對戰模式" data-en="⚔ Match mode">⚔ 對戰模式</label><div class="modes"><button id="com" class="active">VS COM</button><button id="two" class="secondary" data-zh="雙人對打" data-en="2 PLAYERS">雙人對打</button></div>
+<label for="device" data-zh="⌨ 操作裝置" data-en="⌨ Controls">⌨ 操作裝置</label><select id="device"><option value="desktop" data-zh="電腦 · 鍵盤 / 按鈕" data-en="Keyboard / Buttons">電腦 · 鍵盤 / 按鈕</option><option value="mobile" data-zh="手提裝置 · 觸控" data-en="Mobile · Touch">手提裝置 · 觸控</option></select><p id="device-note" class="small device-note"></p>
+<label data-zh="⚔ 對戰模式" data-en="⚔ Match mode">⚔ 對戰模式</label><div class="modes"><button id="com" class="secondary active">VS COM</button><button id="two" class="secondary" data-zh="雙人對打" data-en="2 PLAYERS">雙人對打</button></div>
 <label for="level" data-zh="◆ 電腦難度" data-en="◆ COM difficulty">◆ 電腦難度</label><select id="level"><option value="easy" data-zh="輕鬆" data-en="Easy">輕鬆</option><option value="normal" selected data-zh="標準" data-en="Normal">標準</option><option value="hard" data-zh="挑戰" data-en="Hard">挑戰</option></select>
-<label for="topic" data-zh="▦ Ch.5 Polynomials 題型" data-en="▦ Ch.5 Polynomials topic">▦ Ch.5 Polynomials 題型</label><select id="topic"><option value="mix" data-zh="混合練習" data-en="Mixed practice">混合練習</option><option value="collect" data-zh="合併同類項" data-en="Collect like terms">合併同類項</option><option value="product" data-zh="同底數相乘" data-en="Multiply like bases">同底數相乘</option><option value="quotient" data-zh="同底數相除" data-en="Divide like bases">同底數相除</option><option value="power" data-zh="冪的乘方" data-en="Power of a power">冪的乘方</option><option value="expand" data-zh="簡單展開" data-en="Simple expansion">簡單展開</option></select><p class="small" data-zh="Ch.5 快答練習：入門只考合併同類項及同底數相乘；基礎加入相除、乘方、展開及一個負號。沒有辨認同類項題。除法中的字母視為非零。" data-en="Ch.5 quick practice: Starter covers collecting terms and multiplying powers. Basic adds division, powers, expansion and one minus sign. No identifying-like-terms questions. Variables in division are non-zero."></p><label for="difficulty" data-zh="◇ 題目難度" data-en="◇ Question difficulty">◇ 題目難度</label><select id="difficulty"><option value="easy" data-zh="入門 · 正數一步運算" data-en="Starter · Positive, one step">入門 · 正數一步運算</option><option value="medium" selected data-zh="基礎 · 可有一個負號" data-en="Basic · Up to one minus sign">基礎 · 可有一個負號</option><option value="hard" data-zh="挑戰 · 簡單兩步運算" data-en="Challenge · Simple two-step work">挑戰 · 簡單兩步運算</option></select>
+<label for="topic" data-zh="▦ Ch.5 Polynomials 題型" data-en="▦ Ch.5 Polynomials topic">▦ Ch.5 Polynomials 題型</label><select id="topic"><option value="mix" data-zh="混合練習" data-en="Mixed practice">混合練習</option><option value="collect" data-zh="合併同類項" data-en="Collect like terms">合併同類項</option><option value="product" data-zh="同底數相乘" data-en="Multiply like bases">同底數相乘</option><option value="quotient" data-zh="同底數相除" data-en="Divide like bases">同底數相除</option><option value="power" data-zh="冪的乘方" data-en="Power of a power">冪的乘方</option><option value="expand" data-zh="簡單展開" data-en="Simple expansion">簡單展開</option></select><p class="small" data-zh="Ch.5 快答練習：入門只考合併同類項及同底數相乘；基礎加入相除、乘方、展開及一個負號。沒有辨認同類項題。除法中的字母視為非零。" data-en="Ch.5 quick practice: Starter covers collecting terms and multiplying powers. Basic adds division, powers, expansion and one minus sign. No identifying-like-terms questions. Variables in division are non-zero."></p><label for="difficulty" data-zh="◇ 題目難度" data-en="◇ Question difficulty">◇ 題目難度</label><select id="difficulty"><option value="easy" data-zh="入門 · 正數一步運算" data-en="Starter · One step">入門 · 正數一步運算</option><option value="medium" selected data-zh="基礎 · 可有一個負號" data-en="Basic · One minus sign">基礎 · 可有一個負號</option><option value="hard" data-zh="挑戰 · 簡單兩步運算" data-en="Challenge · Two steps">挑戰 · 簡單兩步運算</option></select>
 <label for="speed" data-zh="» 遊戲速度" data-en="» Game speed">» 遊戲速度</label><select id="speed"><option value="0.75" data-zh="慢速 · 多些思考時間" data-en="Slow · More thinking time">慢速 · 多些思考時間</option><option value="1" selected data-zh="標準" data-en="Normal">標準</option><option value="1.2" data-zh="快速" data-en="Fast">快速</option></select>
 <label for="target" data-zh="⚑ 勝利分數" data-en="⚑ Points to win">⚑ 勝利分數</label><select id="target"><option value="5">5</option><option value="7" selected>7</option><option value="11">11</option></select>
 <label for="effects" data-zh="✦ 殺球特效" data-en="✦ Smash effects">✦ 殺球特效</label><select id="effects"><option value="full" data-zh="完整 · 拖尾及震動" data-en="Full · Trail & shake">完整 · 拖尾及震動</option><option value="calm" data-zh="柔和 · 不震動" data-en="Calm · No shake">柔和 · 不震動</option></select>
@@ -212,12 +268,12 @@ function renderQ(){if(!q)return;updateShotButtons();
  $('#qtitle').innerHTML=mathHTML(q.row[lang==='zh'?1:0]);
  const chosen=ps[side].choice;
  $('#hint').innerHTML=mathHTML(q.used?(tr('正確答案：','Correct answer: ')+q.row[2]+' · '+q.row[lang==='zh'?4:5]):tr('選擇化簡後的答案 · 可提早 2 秒準備擊球','Choose the simplified expression · Prepare your shot up to 2 seconds early')); 
- [0,1].forEach(n=>{const b=$('#answer'+n);b.innerHTML=`<kbd>${n?'B':'A'}</kbd><b>${mathHTML(q.options[n])}</b>`;b.classList.toggle('chosen',!q.used&&ps[side].arm>0&&chosen===n);b.classList.toggle('correct',q.used&&n===q.right);b.classList.toggle('wrong',q.used&&chosen===n&&n!==q.right);b.disabled=side===1&&mode==='com';b.setAttribute('aria-label',`${n?'B':'A'}: ${q.options[n]}`)});
+ [0,1].forEach(n=>{const b=$('#answer'+n);b.innerHTML=`<kbd>${n?'B':'A'}${isMobile()||side===1&&mode==='com'?'':' ['+(side?(n?'L':'K'):(n?'G':'F'))+']'}</kbd><b>${mathHTML(q.options[n])}</b>`;b.classList.toggle('chosen',!q.used&&ps[side].arm>0&&chosen===n);b.classList.toggle('correct',q.used&&n===q.right);b.classList.toggle('wrong',q.used&&chosen===n&&n!==q.right);b.disabled=side===1&&mode==='com';b.setAttribute('aria-label',`${n?'B':'A'}: ${q.options[n]}`)});
 }
 function newQ(i){let a;a=makeAlgebra(i);lastQ=a.text;const wrong=a.choices.filter(x=>x!==a.ans)[rnd(0,1)],right=rnd(0,1);
  const row=[(a.op==='expand'?'Expand: ':'Simplify: ')+a.text,(a.op==='expand'?'展開：':'化簡：')+a.text,a.ans,wrong,kindHints[a.op]+' '+a.text+' = '+a.ans,a.hint];q={row,algebra:a,right,options:right?[wrong,a.ans]:[a.ans,wrong],used:false};side=i;ps.forEach(p=>{p.choice=null;p.arm=0});renderQ()}
 function serve(i){ps=[0,1].map(j=>({x:j?720:240,y:FLOOR,vy:0,arm:0,choice:null,cool:0,moving:false,facing:j?-1:1,attack:0,recover:0,walkPhase:0,runWeight:0,stopAge:1,braking:false,dustTravel:0,vx:0,landAge:0,diveAge:0,diveVx:0,divePhase:null,dive:0,diveCooldown:0,diveDir:j?-1:1}));ball={x:i?720:240,y:235,vx:0,vy:-80,power:false,gravity:580,rotation:0};serveWait=1;trail=[];newQ(i)}
-function overlay(){document.body.classList.toggle('playing',running&&!paused);const el=$('#overlay');el.style.display=(!running||paused)?'flex':'none';if(running&&!paused){if(isMobile())requestAnimationFrame(()=>window.scrollTo({top:0,left:0,behavior:"instant"}));return;}
+function overlay(){document.body.classList.toggle('match-view',running||ended);document.body.classList.toggle('playing',running&&!paused);const el=$('#overlay');el.style.display=(!running||paused)?'flex':'none';if(running&&!paused){if(isMobile())requestAnimationFrame(()=>window.scrollTo({top:0,left:0,behavior:"instant"}));return;}
  let title,desc,action,label,eyebrow;
  if(ended){let w=score[0]>score[1]?0:1;title=(w?(mode==='com'?'COM':tr('玩家 2','PLAYER 2')):tr('玩家 1','PLAYER 1'))+tr(' 勝出！',' WINS!');desc=`${score[0]} : ${score[1]}<br>P1 ${tr('答對','correct')} ${correctCount[0]} / ${attempts[0]} · ${mode==='com'?'COM':'P2'} ${tr('答對','correct')} ${correctCount[1]} / ${attempts[1]}`;eyebrow=tr('比賽結束','MATCH COMPLETE');action='reset(true)';label=tr('再來一場 ↻','PLAY AGAIN ↻')}
  else if(paused){title=tr('休息一下，再接再厲。','Take a breath.');desc=tr('比賽已暫停。','The match is paused.');eyebrow='TIME OUT';action='togglePause()';label=tr('繼續比賽 ▶','RESUME ▶')}
@@ -225,7 +281,7 @@ function overlay(){document.body.classList.toggle('playing',running&&!paused);co
  el.innerHTML=`<div class="eyebrow">${eyebrow}</div><h2>${title}</h2><p>${desc}</p><button class="primary" onclick="${action}">${label}</button><button class="secondary overlay-settings" onclick="showSettings()" style="margin-top:14px">${tr('⚙ 比賽設定','⚙ SETTINGS')}</button>`;
  if(ended){const b=document.createElement('button');b.className='secondary';b.textContent=tr('▦ 學習回饋 / 重練錯題','▦ LEARNING REPORT / RETRY');b.onclick=showReport;el.appendChild(b)}
 }
-function reset(start){questionPlan={count:0,counts:{},recent:[],reviews:[]};matchLog=[];closeReview();conf={topic:$('#topic').value||'mix',difficulty:$('#difficulty').value||'medium',speed:Number($('#speed').value)||1,target:Number($('#target').value)||7,level:$('#level').value||'normal'};if(isMobile())mode='com';keysClear();running=start;paused=false;ended=false;score=[0,0];attempts=[0,0];correctCount=[0,0];fx=[];rings=[];trail=[];shake=flash=freeze=msgTime=0;serve(0);updateLabels();overlay()}
+function reset(start){questionPlan={count:0,counts:{},recent:[],reviews:[]};matchLog=[];answerPreparations=[0,0];closeReview();conf={topic:$('#topic').value||'mix',difficulty:$('#difficulty').value||'medium',speed:Number($('#speed').value)||1,target:Number($('#target').value)||7,level:$('#level').value||'normal'};if(isMobile())mode='com';keysClear();running=start;paused=false;ended=false;score=[0,0];attempts=[0,0];correctCount=[0,0];fx=[];rings=[];trail=[];shake=flash=freeze=msgTime=0;serve(0);updateLabels();overlay()}
 $('#reset').onclick=()=>reset(true);
 function updateLabels(){updateDeviceNote();$('#projection').textContent=projection?tr('▣ 投影：開 · 退出','▣ PROJECTION: ON · EXIT'):tr('▣ 投影模式','▣ PROJECTION');$('#projection').setAttribute('aria-pressed',String(projection));$('#pause').textContent=paused?tr('▶ 繼續','▶ Resume'):tr('Ⅱ 暫停','Ⅱ Pause');$('#sound').textContent=tr('音效 ','Sound ')+(sound?'ON':'OFF')}
 function setLanguage(value){lang=value==='en'?'en':'zh';keysClear();try{localStorage.setItem('math-volley-lang',lang)}catch{}$('#language').value=lang;document.documentElement.lang=lang==='zh'?'zh-Hant':'en';document.title=tr('MATH VOLLEY｜數學排球','MATH VOLLEY');document.querySelectorAll('[data-zh]').forEach(el=>el.textContent=el.dataset[lang]);$('#game').setAttribute('aria-label',tr('數學排球球場','Math volleyball court'));$('#level').setAttribute('aria-label',tr('電腦難度','Computer difficulty'));updateLabels();controls();roster();renderQ();overlay()}
@@ -241,20 +297,22 @@ function jump(i){if(running&&!paused&&ps[i].y>=FLOOR-1&&ps[i].dive<=0&&ps[i].rec
 function dive(i,requestedDirection=0){
  if(!running||paused||ended)return;const p=ps[i];if(p.dive>0||p.recover>0||p.diveCooldown>0)return;
  const b=binds[i],dir=(keys[b.right]||held[i].right?1:0)-(keys[b.left]||held[i].left?1:0);
+ const reach=diveReach(i),lo=i?W/2+reach:reach,hi=i?W-reach:W/2-reach;
+ if(p.x<lo||p.x>hi){p.diveBlocked=.65;updateDiveButtons();return}
  p.diveDir=requestedDirection||dir||p.facing;p.facing=p.diveDir;p.dive=1;p.diveAge=0;p.divePhase="air";p.diveVx=p.diveDir*(p.moving?560:470);p.diveCooldown=0;p.landAge=0;if(p.y>=FLOOR-1)p.vy=-160;tone(300,.09);
  for(let k=0;k<8;k++)fx.push({x:p.x-p.diveDir*25,y:p.y-8,vx:-p.diveDir*(40+Math.random()*90),vy:-Math.random()*55,life:.38,max:.38,color:'#b49aff'});
  updateDiveButtons();
 }
-function updateDiveButtons(){document.querySelectorAll('[data-action="dive"]').forEach(b=>{const p=ps[+b.dataset.player],busy=p.dive>0||p.recover>0;b.classList.toggle('cooling',busy);b.querySelector('.action-label').textContent=p.recover>0?tr('起身','Rise'):p.dive>0?tr('飛撲中','Diving'):tr('飛撲','Dive');b.querySelector('.dive-meter').style.transform='scaleX('+(p.recover>0?1-p.recover/.28:busy?0:1)+')';b.setAttribute('aria-label','P'+(+b.dataset.player+1)+' '+(busy?tr('飛撲／起身中','Diving / recovering'):tr('飛撲可用','Dive ready')))})}
+function updateDiveButtons(){document.querySelectorAll('[data-action="dive"]').forEach(b=>{const p=ps[+b.dataset.player],busy=p.dive>0||p.recover>0;b.classList.toggle('cooling',busy);b.querySelector('.action-label').textContent=p.diveBlocked>0?tr('空間不足','No room'):p.recover>0?tr('起身','Rise'):p.dive>0?tr('飛撲中','Diving'):tr('飛撲','Dive');b.querySelector('.dive-meter').style.transform='scaleX('+(p.recover>0?1-p.recover/.28:busy?0:1)+')';b.setAttribute('aria-label','P'+(+b.dataset.player+1)+' '+(busy?tr('飛撲／起身中','Diving / recovering'):tr('飛撲可用','Dive ready')))})}
 
 
-function arm(i,n){if(!running||paused||ended||i!==side||q.used)return;ps[i].choice=n;ps[i].arm=2;renderQ();tone(280+n*90,.04);if(serveWait<=0&&answerHitInRange(i))hit(i)}
+function arm(i,n){if(!running||paused||ended||i!==side||q.used)return;if(!q.prepared)q.prepared={};if(!q.prepared[i]){answerPreparations[i]++;q.prepared[i]=true}ps[i].choice=n;ps[i].arm=2;renderQ();tone(280+n*90,.04);if(serveWait<=0&&answerHitInRange(i))hit(i)}
 [0,1].forEach(n=>{const button=$('#answer'+n);const choose=()=>{if(side===1&&mode==='com')return;arm(side,n)};button.onpointerdown=e=>{e.preventDefault();choose()};button.onclick=e=>{if(e.detail===0)choose()}});
 function point(w){score[w]++;tone(600,.22);msg={kind:'point',player:w};msgTime=1.5;if(score[w]>=conf.target){ended=true;running=false;overlay();showReport()}else serve(w)}
 function hit(i){
  const p=ps[i],ok=p.choice===q.right;matchLog.push({player:i,ok,chosen:q.options[p.choice],algebra:JSON.parse(JSON.stringify(q.algebra))});if(!ok&&!(i===1&&mode==='com'))scheduleReview(q.algebra,i);attempts[i]++;if(ok)correctCount[i]++;q.used=true;p.arm=0;p.cool=.3;p.attack=.36;p.facing=i?-1:1;
- const contact=isRescuing(p)?bodyContact(p,ball):diveContact(p);ball.x=Math.max(R+2,Math.min(W-R-2,isRescuing(p)?ball.x:p.x+(i?-54:54)));ball.y=Math.min(ball.y,contact.y-7);
- ball.vx=(i?-1:1)*(ok?SMASH:WEAK);ball.vy=ok?(ball.y<NET-65?220:-670):-355;ball.gravity=ok?650:300;ball.power=ok;ball.shotOwner=i;ball.shotReleased=false;if(ok&&i===1&&mode==='com')applyComPlacement();
+ // Preserve the real contact point; the collision solver alone separates overlaps.
+ ball.vx=(i?-1:1)*(ok?SMASH:WEAK);ball.vy=ok?(ball.y<NET-65?220:-670):-355;ball.gravity=ok?650:300;ball.power=ok;ball.shotOwner=i;ball.shotReleased=false;ball.ownerTimer=.08;if(ok&&i===1&&mode==='com')applyComPlacement();
  msg={kind:ok?'smash':'weak',formula:q.row[2]};msgTime=1.25;trail=[];renderQ();tone(ok?1100:180,ok?.25:.18);
  if(ok){shake=$('#effects').value==='calm'?0:.24;flash=$('#effects').value==='calm'?0:.12;freeze=.045;rings.push({x:ball.x,y:ball.y,life:.45});}
  for(let k=0;k<(ok?30:7);k++)fx.push({x:ball.x,y:ball.y,vx:(Math.random()-.5)*(ok?580:100),vy:(Math.random()-.5)*(ok?520:100),life:ok?.65:.45,max:ok?.65:.45,color:ok?['#fff3b6','#ffbe43','#ff713d'][k%3]:'#cee8ec'});
@@ -265,6 +323,7 @@ function update(dt){
  fx.forEach(f=>{f.x+=f.vx*dt;f.y+=f.vy*dt;f.vy+=150*dt;f.life-=dt});fx=fx.filter(f=>f.life>0);rings.forEach(r=>r.life-=dt);rings=rings.filter(r=>r.life>0);trail.forEach(p=>p.life-=dt);trail=trail.filter(p=>p.life>0);
  if(!running)return;if(freeze>0){freeze-=dt;return}if(serveWait>0){serveWait-=dt;return}
  ps.forEach((p,i)=>{
+  p.previousX=p.x;p.previousY=p.y;p.diveBlocked=Math.max(0,(p.diveBlocked||0)-dt);
   const previousX=p.x,wasMoving=p.moving,previousVx=p.vx||0;p.stopAge=Math.min(1,(p.stopAge||0)+dt);p.braking=false;p.cool-=dt;p.attack-=dt;p.recover=Math.max(0,p.recover-dt);p.diveCooldown=Math.max(0,p.diveCooldown-dt);const prevArm=p.arm;p.arm-=dt;if(prevArm>0&&p.arm<=0){if(!q.used&&side===i)renderQ();if(i===1&&mode==='com')p.choice=null}
   let dir=0,speed=325;
   if(i===1&&mode==='com'){
@@ -293,37 +352,13 @@ function update(dt){
    }
   }else if(p.recover>0){p.moving=false;p.y=FLOOR;p.vy=0}
   else{p.braking=!dir&&Math.abs(p.vx||0)>12;const targetV=dir*speed,accel=dir?2400:3000;p.vx=(p.vx||0)+Math.sign(targetV-(p.vx||0))*Math.min(Math.abs(targetV-(p.vx||0)),accel*dt);p.x+=p.vx*dt;p.moving=Math.abs(p.vx)>12;if(Math.abs(p.vx)>12)p.facing=Math.sign(p.vx);else if(dir)p.facing=dir;p.vy+=1040*dt;p.y+=p.vy*dt;if(p.y>FLOOR){p.y=FLOOR;p.vy=0}}
-  const reach=p.dive>0?120:51,lo=i?480+reach:reach,hi=i?W-reach:480-reach;const bounded=Math.max(Math.min(previousX,lo),Math.min(Math.max(previousX,hi),p.x));if(bounded!==p.x){p.diveVx=0;p.vx=0}p.x=bounded;
+  const reach=isRescuing(p)?diveReach(i):54,lo=i?480+reach:reach,hi=i?W-reach:480-reach;const bounded=Math.max(lo,Math.min(hi,p.x));if(bounded!==p.x){p.diveVx=0;p.vx=0}p.x=bounded;
   if(p.y>=FLOOR-1&&!isRescuing(p))p.moving=Math.abs(p.x-previousX)>.01;if(wasMoving&&!p.moving&&!isRescuing(p)){p.stopAge=0;p.stopLift=Math.min(1,Math.abs(previousVx)/100)}updateFootsteps(p,Math.abs(p.x-previousX));const runTarget=p.moving&&p.y>=FLOOR-1&&!isRescuing(p)?1:0;p.runWeight=runTarget+((p.runWeight||0)-runTarget)*Math.exp(-dt*(runTarget?22:16));
 
  });updateDiveButtons();
- const oldX=ball.x,oldY=ball.y;ball.vy+=ball.gravity*dt;ball.x+=ball.vx*dt;ball.y+=ball.vy*dt;ball.rotation+=ball.vx*dt*.013;
- if(ball.power){trail.push({x:ball.x,y:ball.y,life:.18});if(trail.length>24)trail.shift()}
- if(ball.x<R||ball.x>W-R){ball.x=Math.max(R,Math.min(W-R,ball.x));ball.vx*=-.75;ball.power=false;ball.shotReleased=true}
- if(ball.y<R){ball.y=R;ball.vy=Math.abs(ball.vy);ball.shotReleased=true}
- const netHalf=6;
- if(Math.abs(ball.x-W/2)<R+netHalf&&ball.y+R>NET){
-  if(oldY+R<=NET&&ball.vy>0){ball.y=NET-R;ball.vy=-Math.max(180,Math.abs(ball.vy)*.5)}
-  else{ball.x=oldX<W/2?W/2-R-netHalf-1:W/2+R+netHalf+1;ball.vx=-ball.vx*.55}ball.power=false;ball.shotReleased=true;
- }
- if((oldX<W/2&&ball.x>=W/2)||(oldX>=W/2&&ball.x<W/2))newQ(ball.x>=W/2?1:0);
-   ps.forEach((p,i)=>{
-   if((ball.x<W/2?0:1)!==i)return;
-   // An outgoing shot belongs to one contact, even if the hitter jumps or changes pose.
-   // Re-enable contact only after a real rebound or another player's touch.
-
-   const diving=isRescuing(p),contact=diving?bodyContact(p,ball):diveContact(p),dist=diving?Math.hypot(ball.x-contact.x,ball.y-contact.y):Math.hypot(ball.x-contact.x,(ball.y-contact.y)*.8);
-   const collision=sweepBody(p,oldX,oldY,ball.x,ball.y);
-   if(side===i&&(dist<(diving?R+22:94)||collision)&&p.arm>0&&p.choice!==null&&!q.used){hit(i);return}
-   if(ball.shotOwner===i&&!ball.shotReleased)return;
-   if(collision&&ball.vx*collision.nx+ball.vy*collision.ny<0){
-    ball.x=collision.x+collision.nx*.5;ball.y=collision.y+collision.ny*.5;
-    ball.vx=collision.nx?collision.nx*Math.max(120,Math.abs(ball.vx)*.55):(i?-1:1)*100;
-    if(ball.y+R>NET&&((i===0&&ball.x>W/2-R-7)||(i===1&&ball.x<W/2+R+7))){const top=diving?rescueBounds(p).top:p.y-PLAYER_H;ball.x=i?W/2+R+7:W/2-R-7;ball.y=Math.min(ball.y,top-R-1);ball.vx=(i?1:-1)*180}ball.vy=diving?-460:-360;ball.gravity=580;ball.power=false;ball.shotOwner=i;ball.shotReleased=false;p.cool=Math.max(p.cool,.12);tone(220,.05);
-   }
-  });
-if(ball.y+R>=FLOOR+10)point(ball.x<W/2?1:0);
+ advanceBall(dt);
 }
+
 function rect(x,y,w,h,col){g.fillStyle=col;g.fillRect(Math.round(x),Math.round(y),w,h)}
 function text(t,x,y,size=16,col='#244942',align='center'){g.fillStyle=col;g.font=`bold ${size}px "Courier New", "Microsoft JhengHei", monospace`;g.textAlign=align;g.fillText(t,x,y)}
 function drawActor(ctx,id,x,y,height,pose=0,facing=1,bob=0){
@@ -379,11 +414,11 @@ function isMobile(){return $('#device').value==='mobile'}
 function updateDeviceNote(){$('#device-note').textContent=isMobile()?tr('只限 VS COM。長按左右移動；跳躍、飛撲及 A / B 可多指同時操作。','VS COM only. Hold a direction; jump, dive and choose A/B with another finger.'):tr('支援 VS COM 或同一鍵盤雙人對打。','Play VS COM or two players on the same keyboard.');$('#two').disabled=isMobile()}
 function setDevice(){keysClear();document.body.classList.toggle('mobile-mode',isMobile());setMode(isMobile()?'com':mode);updateDeviceNote()}
 function setProjection(value){projection=!!value;document.body.classList.toggle('projection-mode',projection);updateLabels()}
-function showSettings(){if(running&&!paused)togglePause();setProjection(false);document.body.classList.remove('playing');$('#settings-panel').scrollIntoView({behavior:'smooth',block:'start'})}
+function showSettings(){if(running&&!paused)togglePause();setProjection(false);document.body.classList.remove('playing','match-view');$('#settings-panel').scrollIntoView({behavior:'smooth',block:'start'})}
 $('#projection').onclick=()=>setProjection(!projection);$('#device').onchange=setDevice;$('#settings-open').onclick=showSettings;
 ['topic','difficulty','speed','target','level'].forEach(id=>$('#'+id).onchange=()=>{if(!running)reset(false)});
 
-let matchLog=[],practice=[],practiceIndex=0,practiceCorrect=0,practiceLocked=false;
+let answerPreparations=[0,0],matchLog=[],practice=[],practiceIndex=0,practiceCorrect=0,practiceLocked=false;
 syncTopicLevel();reset(false);setLanguage(lang);setDevice();
 function loop(t){const dt=Math.min((t-lastTime)/1000,.04);lastTime=t;for(let n=0;n<4;n++)update(dt/4);draw();requestAnimationFrame(loop)}requestAnimationFrame(loop);
 
@@ -393,7 +428,7 @@ function mathHTML(value){return String(value).split(/([=：:。.;])/).map(part=>
 
 function drawShotCue(){
  if(!running||paused||q.used)return;const p=ps[side];if(p.arm<=0||p.choice===null)return;
- const correct=p.choice===q.right,diving=isRescuing(p),contact=diving?bodyContact(p,ball):diveContact(p),cx=contact.x,cy=contact.y,near=Math.hypot(ball.x-cx,(ball.y-cy)*(diving?1:.8))<(diving?R+38:124);
+ const correct=p.choice===q.right,diving=isRescuing(p),contact=diving?bodyContact(p,ball):diveContact(p),cx=contact.x,cy=contact.y,near=answerHitInRange(side);
  g.save();g.strokeStyle=correct?'#faff75':'#b4edff';g.fillStyle=correct?'#faff7570':'#b4edff50';g.lineWidth=3;
  if(correct){g.shadowColor='#fff56a';g.shadowBlur=22;g.beginPath();g.arc(p.x+p.facing*44,p.y-(diving?40:108),13+Math.sin(clock*16)*3,0,Math.PI*2);g.fill();g.shadowBlur=0}
  if(near){g.beginPath();g.arc(ball.x,ball.y,R+13+Math.sin(clock*12)*3,0,Math.PI*2);g.stroke()}
@@ -404,7 +439,7 @@ function reviewShell(title,content){const e=$('#review');e.hidden=false;e.innerH
 function showReport(){
  const people=mode==='two'?[0,1]:[0];let out='';
  for(const i of people){const rows=matchLog.filter(r=>r.player===i),wrong=rows.filter(r=>!r.ok),stats={};wrong.forEach(r=>stats[r.algebra.op]=(stats[r.algebra.op]||0)+1);const max=Math.max(0,...Object.values(stats));const common=Object.keys(stats).filter(k=>stats[k]===max).map(k=>kindNames[k][lang==='zh'?0:1]).join('、');
- out+='<div class="report-player"><h3>P'+(i+1)+' · '+tr('學習回饋','Learning report')+'</h3><p>'+tr('正確率','Accuracy')+' <strong>'+(rows.length?Math.round(rows.filter(r=>r.ok).length/rows.length*100)+'%':'—')+'</strong> · '+rows.filter(r=>r.ok).length+' / '+rows.length+'</p><p>'+ (max?tr('最常錯：','Most missed: ')+common:rows.length?tr('全部答對！','All answers correct!'):tr('本場尚未完成答題擊球。','No answered shots this match.'))+'</p></div>';
+ out+='<div class="report-player"><h3>P'+(i+1)+' · '+tr('學習回饋','Learning report')+'</h3><p>'+tr('正確率','Accuracy')+' <strong>'+(rows.length?Math.round(rows.filter(r=>r.ok).length/rows.length*100)+'%':'—')+'</strong> · '+rows.filter(r=>r.ok).length+' / '+rows.length+'</p><p>'+ (max?tr('最常錯：','Most missed: ')+common:rows.length?tr('全部答對！','All answers correct!'):tr('本場尚未完成答題擊球。','No answered shots this match.'))+'</p><p>'+tr('已預選答案：','Questions prepared: ')+answerPreparations[i]+' · '+tr('成功答題擊球：','Answered shots: ')+rows.length+'</p></div>';
  }
  const wrong=matchLog.filter(r=>!r.ok&&(mode==='two'||r.player===0));
  out+='<p class="small">'+tr('統計以實際擊球時的答案計算；未擊中的預選答案不計。以下展示最多三題。','Only answers used for a shot count. Up to three missed questions shown below.')+'</p>';
@@ -527,18 +562,92 @@ function drawLocomotion(p,i){
 
 
 // Sweep the ball centre against the body expanded by ball radius, including net rebounds and rising balls.
-function sweepBody(p,x0,y0,x1,y1){
- const box=isRescuing(p)?rescueBounds(p):{left:p.x-48,right:p.x+48,top:p.y-PLAYER_H,bottom:p.y};
- const l=box.left-R,r=box.right+R,t=box.top-R,b=box.bottom+R,dx=x1-x0,dy=y1-y0;
- if(x0>=l&&x0<=r&&y0>=t&&y0<=b){if(x1<l||x1>r||y1<t||y1>b)return null;const faces=[{d:x1-l,nx:-1,ny:0,x:l,y:y1},{d:r-x1,nx:1,ny:0,x:r,y:y1},{d:y1-t,nx:0,ny:-1,x:x1,y:t},{d:b-y1,nx:0,ny:1,x:x1,y:b}];return faces.sort((a,b)=>a.d-b.d)[0]}
- let enter=0,leave=1,nx=0,ny=0;
- for(const [v,d,min,max,axis] of [[x0,dx,l,r,0],[y0,dy,t,b,1]]){if(Math.abs(d)<1e-9){if(v<min||v>max)return null;continue}let near=(min-v)/d,far=(max-v)/d,sign=-1;if(near>far){[near,far]=[far,near];sign=1}if(near>enter){enter=near;nx=axis===0?sign:0;ny=axis===1?sign:0}leave=Math.min(leave,far);if(enter>leave)return null}
- if(enter<0||enter>1)return null;return{x:x0+dx*enter,y:y0+dy*enter,nx,ny};
+// Contacts are resolved in time order. A shot changes velocity, never position.
+function playerBounds(p){return isRescuing(p)?rescueBounds(p):{left:p.x-48,right:p.x+48,top:p.y-PLAYER_H,bottom:p.y}}
+function distanceToBox(x,y,b){return Math.hypot(x-Math.max(b.left,Math.min(b.right,x)),y-Math.max(b.top,Math.min(b.bottom,y)))}
+function diveReach(i){
+ let half=95;
+ if(diveReady){const f=diveFrames[selected[i]],scale=190/f[0].w;half=Math.max(half,...f.map(a=>a.w*scale/2))}
+ return Math.max(54,half+7);
+}
+// Sweep a circle against rectangle faces AND rounded corners, not an expanded square.
+function sweepCircleRect(x,y,dx,dy,b,r=R){
+ const clamp=(v,l,h)=>Math.max(l,Math.min(h,v));
+ const qx=clamp(x,b.left,b.right),qy=clamp(y,b.top,b.bottom),ox=x-qx,oy=y-qy,d=Math.hypot(ox,oy);
+ if(d<r-1e-7){
+  if(d>1e-7)return{t:0,nx:ox/d,ny:oy/d,depth:r-d};
+  const faces=[{gap:x-b.left,nx:-1,ny:0},{gap:b.right-x,nx:1,ny:0},{gap:y-b.top,nx:0,ny:-1},{gap:b.bottom-y,nx:0,ny:1}];
+  const f=faces.sort((a,c)=>a.gap-c.gap)[0];return{t:0,nx:f.nx,ny:f.ny,depth:r+f.gap};
+ }
+ let best=null;
+ const offer=(t,nx,ny)=>{if(t>=-1e-8&&t<=1+1e-8&&dx*nx+dy*ny< -1e-8&&(!best||t<best.t))best={t:Math.max(0,Math.min(1,t)),nx,ny,depth:0}};
+ if(dx>0){const t=(b.left-r-x)/dx,cy=y+dy*t;if(cy>=b.top&&cy<=b.bottom)offer(t,-1,0)}
+ if(dx<0){const t=(b.right+r-x)/dx,cy=y+dy*t;if(cy>=b.top&&cy<=b.bottom)offer(t,1,0)}
+ if(dy>0){const t=(b.top-r-y)/dy,cx=x+dx*t;if(cx>=b.left&&cx<=b.right)offer(t,0,-1)}
+ if(dy<0){const t=(b.bottom+r-y)/dy,cx=x+dx*t;if(cx>=b.left&&cx<=b.right)offer(t,0,1)}
+ const a=dx*dx+dy*dy;
+ if(a>1e-12)for(const [cx,cy,sx,sy]of [[b.left,b.top,-1,-1],[b.right,b.top,1,-1],[b.left,b.bottom,-1,1],[b.right,b.bottom,1,1]]){
+  const ox=x-cx,oy=y-cy,bb=2*(ox*dx+oy*dy),cc=ox*ox+oy*oy-r*r,disc=bb*bb-4*a*cc;
+  if(disc<0)continue;const t=(-bb-Math.sqrt(disc))/(2*a),px=x+dx*t,py=y+dy*t;
+  if((px-cx)*sx>=-1e-7&&(py-cy)*sy>=-1e-7)offer(t,(px-cx)/r,(py-cy)/r);
+ }
+ return best;
+}
+function syncBallSide(){const next=ball.x<W/2?0:1;if(next!==side)newQ(next)}
+function advanceBall(dt){
+ const ground=FLOOR+10-R,net={left:W/2-6,right:W/2+6,top:NET,bottom:FLOOR+10};
+ if(ball.y>=ground-1e-7){point(ball.x<W/2?1:0);return}
+ ball.vy+=ball.gravity*dt;ball.ownerTimer=Math.max(0,(ball.ownerTimer||0)-dt);
+ let remaining=dt,elapsed=0;
+ const movingBox=(p)=>{const b=playerBounds(p),fraction=elapsed/dt,sx=((p.previousX??p.x)-p.x)*(1-fraction),sy=((p.previousY??p.y)-p.y)*(1-fraction);return{left:b.left+sx,right:b.right+sx,top:b.top+sy,bottom:b.bottom+sy}};
+ if(ball.shotOwner!==undefined&&!ball.shotReleased&&ball.ownerTimer<=0){
+  if(distanceToBox(ball.x,ball.y,movingBox(ps[ball.shotOwner]))>R+1)ball.shotReleased=true;
+ }
+ for(let iteration=0;remaining>1e-7&&iteration<12;iteration++){
+  const dx=ball.vx*remaining,dy=ball.vy*remaining;
+  let event=null;
+  const offer=(e)=>{if(e&&e.t>=-1e-8&&e.t<=1+1e-8&&(!event||e.t<event.t-1e-8||(Math.abs(e.t-event.t)<=1e-8&&e.kind==='ground')))event=e};
+  if(dy>0)offer({kind:'ground',t:(ground-ball.y)/dy});
+  if(dx<0)offer({kind:'wall',t:(R-ball.x)/dx,nx:1,ny:0});
+  if(dx>0)offer({kind:'wall',t:(W-R-ball.x)/dx,nx:-1,ny:0});
+  if(dy<0)offer({kind:'ceiling',t:(R-ball.y)/dy,nx:0,ny:1});
+  const nc=sweepCircleRect(ball.x,ball.y,dx,dy,net);if(nc)offer({...nc,kind:'net'});
+  ps.forEach((p,i)=>{
+   if(ball.shotOwner===i&&!ball.shotReleased)return;
+   const pvx=(p.x-(p.previousX??p.x))/dt,pvy=(p.y-(p.previousY??p.y))/dt;
+   const contact=sweepCircleRect(ball.x,ball.y,dx-pvx*remaining,dy-pvy*remaining,movingBox(p));
+   if(contact){const cx=ball.x+dx*contact.t;if((cx<W/2?0:1)===i)offer({...contact,kind:'player',i,pvx,pvy})}
+  });
+  if(!event){ball.x+=dx;ball.y+=dy;ball.rotation+=dx*.013;syncBallSide();remaining=0;break}
+  const fraction=Math.max(0,Math.min(1,event.t)),time=remaining*fraction;
+  ball.x+=ball.vx*time;ball.y+=ball.vy*time;ball.rotation+=ball.vx*time*.013;elapsed+=time;remaining-=time;
+  if(event.kind==='ground'){ball.y=ground;point(ball.x<W/2?1:0);return}
+  // Geometric separation only; never move a contact across the net.
+  ball.x+=event.nx*((event.depth||0)+.02);ball.y+=event.ny*((event.depth||0)+.02);
+  if(event.kind==='player'&&ball.y+R>NET){
+   // A pose change near the net must not separate an overlap through the net.
+   ball.x=event.i===0?Math.min(ball.x,W/2-6-R-.02):Math.max(ball.x,W/2+6+R+.02);
+  }
+  if(event.kind==='wall'){ball.x=Math.max(R,Math.min(W-R,ball.x));ball.vx=-ball.vx*.75;ball.power=false;ball.shotReleased=true}
+  else if(event.kind==='ceiling'){ball.y=Math.max(R,ball.y);ball.vy=Math.abs(ball.vy);ball.shotReleased=true}
+  else if(event.kind==='net'){
+   const normal=ball.vx*event.nx+ball.vy*event.ny;
+   if(normal<0){ball.vx-=1.55*normal*event.nx;ball.vy-=1.55*normal*event.ny}
+   if(event.ny<-.7)ball.vy=-Math.max(180,Math.abs(ball.vy));
+   ball.power=false;ball.shotReleased=true;
+  }else{
+   syncBallSide();const i=event.i,p=ps[i];
+   if(side===i&&p.arm>0&&p.choice!==null&&!q.used){hit(i)}
+   else{ball.vx=event.nx?event.nx*Math.max(120,Math.abs(ball.vx)*.55):(i?-1:1)*100;ball.vy=isRescuing(p)?-460:-360;ball.gravity=580;ball.power=false;ball.shotOwner=i;ball.shotReleased=false;ball.ownerTimer=.08;p.cool=Math.max(p.cool,.08);tone(220,.05)}
+  }
+  syncBallSide();
+ }
+ if(ball.power){trail.push({x:ball.x,y:ball.y,life:.18});if(trail.length>24)trail.shift()}
+}
+function answerHitInRange(i){
+ if(!q||q.used||side!==i||(ball.x<W/2?0:1)!==i||ball.y+R>=FLOOR+10)return false;
+ if(ball.shotOwner===i&&!ball.shotReleased)return false;
+ return distanceToBox(ball.x,ball.y,playerBounds(ps[i]))<=R+.05;
 }
 
-function answerHitInRange(i){
- if(!q||q.used||side!==i||(ball.x<W/2?0:1)!==i)return false;
- const p=ps[i],rescuing=isRescuing(p),contact=rescuing?bodyContact(p,ball):diveContact(p);
- return Math.hypot(ball.x-contact.x,(ball.y-contact.y)*(rescuing?1:.8))<(rescuing?R+22:94);
-}
 </script></body></html>
